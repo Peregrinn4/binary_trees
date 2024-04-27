@@ -10,13 +10,24 @@
  */
 size_t binary_tree_height(const binary_tree_t *tree)
 {
-    if (tree == NULL)
-        return 0; // If tree is NULL, return 0
+    int l = 0, r = 0;
 
-    size_t left_height = binary_tree_height(tree->left);
-    size_t right_height = binary_tree_height(tree->right);
-
-    return (left_height > right_height ? left_height : right_height) + 1;
+	if (tree->left && tree->right)
+	{
+		l = 1 + tree_is_perfect(tree->left);
+		r = 1 + tree_is_perfect(tree->right);
+		if (r == l && r != 0 && l != 0)
+			return (r);
+		return (0);
+	}
+	else if (!tree->left && !tree->right)
+	{
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}
 }
 
 /**
@@ -28,20 +39,19 @@ size_t binary_tree_height(const binary_tree_t *tree)
  */
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
-    if (tree == NULL)
-        return 0; // If tree is NULL, return 0
+    int result = 0;
 
-    size_t left_height = binary_tree_height(tree->left);
-    size_t right_height = binary_tree_height(tree->right);
-
-    /* Check if left and right subtrees have the same height */
-    if (left_height != right_height)
-        return 0;
-
-    /* Check if left and right subtrees are perfect */
-    if (binary_tree_is_perfect(tree->left) && binary_tree_is_perfect(tree->right))
-        return 1;
-
-    /* If any condition fails, the tree is not perfect */
-    return 0;
+	if (tree == NULL)
+	{
+		return (0);
+	}
+	else
+	{
+		result = tree_is_perfect(tree);
+		if (result != 0)
+		{
+			return (1);
+		}
+		return (0);
+	}
 }
